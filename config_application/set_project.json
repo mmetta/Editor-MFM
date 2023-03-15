@@ -1,0 +1,11 @@
+{
+    "app_h":600,
+    "app_w":800,
+    "cor_pref":[
+        "Azul",
+        "#BBDEFB",
+        "#1565C0"
+    ],
+    "max":0,
+    "theme":"light"
+}
