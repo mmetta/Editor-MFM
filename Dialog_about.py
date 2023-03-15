@@ -40,10 +40,10 @@ class DialogAbout:
 
         layH_3 = QHBoxLayout()
         lbl_text = QLabel(
-            '\nUm editor simples, porém útil e eficaz ' +
-            'na elaboração de documentos de texto com ' +
-            'formatação e imagens.\n\n' +
-            'Esta versão conta com os recursos do ' +
+            '\n\tUm editor simples, porém útil e eficaz ' +
+            'na elaboração de documentos de texto ricos ' +
+            'em formatação, links e imagens.\n\n' +
+            '\tEsta versão conta com os recursos do ' +
             'PySide6, vários widgets, várias funções e ' +
             'classes do Python 3.11, aproveitem.\n'
         )
