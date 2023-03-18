@@ -7,18 +7,21 @@
  <b>O projeto conta com diversos recursos do PySide6:</b><br/>
 
  QTextEdit<br/>
- QMenu<br/>
  QMenuBar<br/>
+ QMenu<br/>
  QToolBar<br/>
+ QAction<br/>
+ QPaint<br/>
+ QImage<br/>
+ QPixmap<br/>
  QDialog<br/>
  QPrinter<br/>
  QPrintDialog<br/>
  QPrintPreviewDialog<br/>
+ QProcess<br/>
 
  Permite configuração de esquema de cores e tema Dark ou Light.<br/>
- Reinicializa o editor para aplicação das alterações.
-
- <b>Tarefas em aberto:</b> implementar Drag and Drop para imagens e terminar a página de ajuda, escrita em HTML no próprio editor e vizualizada no browser padrão do usuário.
+ Reinicializa o editor para aplicação das configurações escolhidas pelo usuário.
 
 <p align="right"><b>MFMetta - mar/2023</b></p>
 
