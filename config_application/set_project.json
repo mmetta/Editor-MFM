@@ -1,10 +1,32 @@
 {
     "app_h":600,
     "app_w":800,
+    "colors_theme":[
+        [
+            "Azul",
+            "#bbdefb",
+            "#1565c0"
+        ],
+        [
+            "Ambar",
+            "#ffecB3",
+            "#ff6f00"
+        ],
+        [
+            "Verde",
+            "#d5ecd6",
+            "#00dd00"
+        ],
+        [
+            "Pink",
+            "#fce4ec",
+            "#e53080"
+        ]
+    ],
     "cor_pref":[
         "Azul",
-        "#BBDEFB",
-        "#1565C0"
+        "#bbdefb",
+        "#1565c0"
     ],
     "max":0,
     "theme":"light"

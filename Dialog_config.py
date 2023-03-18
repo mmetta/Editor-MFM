@@ -1,3 +1,6 @@
+import os
+import sys
+
 from pyCore import *
 
 from config_application.estilos_config import style_qpush_button
@@ -13,13 +16,12 @@ class DialogConfig:
         super().__init__()
 
         self.new_conf = config
+        self.Changed = False
         self.dialog_config = QDialog(None, Qt.WindowSystemMenuHint | Qt.WindowTitleHint)
         self.dialog_config.setWindowTitle('Configurações do App')
         self.dialog_config.setMinimumSize(320, 400)
         self.dialog_config.setMaximumSize(320, 400)
         self.dialog_config.setWindowIcon(cor_icon(f"icons/light/settings.svg"))
-        # self.dialog_config.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        # self.dialog_config.showExtension(False)
 
         layV_c = QVBoxLayout(self.dialog_config)
         lbl1_c = QLabel('Escolha suas preferências')
@@ -44,12 +46,7 @@ class DialogConfig:
             radio_light.setChecked(True)
 
         # CORES DE DESTAQUE
-        self.li_c = [
-                    ('Azul', '#BBDEFB', '#1565C0'),
-                    ('Ambar', '#FFECB3', '#FF6F00'),
-                    ('Verde', '#C8E6C9', '#2E7D32'),
-                    ('Pink', '#FCE4EC', '#C2185B')
-                ]
+        self.li_c = config['colors_theme']
 
         c_pr_index = 0
         for i, c_pr in enumerate(self.li_c):
@@ -209,6 +206,7 @@ class DialogConfig:
     def config_no_save(self):
         self.new_conf = config
         self.dialog_config.close()
+        self.Changed = False
 
     def config_save(self):
         th = self.theme_group.checkedButton()
@@ -232,18 +230,4 @@ class DialogConfig:
 
         save_new_conf(self.new_conf)
         self.dialog_config.close()
-
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     w = QWidget()
-#     w.resize(800, 600)
-#     w.setWindowTitle("Dialog Config")
-#
-#     btn = QPushButton(w)
-#     btn.setText('Dialog')
-#     btn.move(110, 150)
-#     btn.show()
-#     btn.clicked.connect(DialogConfig)
-#
-#     w.show()
-#     sys.exit(app.exec())
+        self.Changed = True

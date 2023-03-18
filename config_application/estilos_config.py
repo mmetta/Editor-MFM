@@ -12,14 +12,14 @@ def style_qmenu():
                     }
             """
     sm = f"""
-                QMenu::item:selected {{
-                    background-color: {config['cor_pref'][1]};
-                    color: default;
-                }}
-                QMenu::item:pressed {{
-                    background-color: {config['cor_pref'][2]};
-                }}
-            """
+            QMenu::item:selected {{
+                background-color: {config['cor_pref'][1]};
+                color: default;
+            }}
+            QMenu::item:pressed {{
+                background-color: {config['cor_pref'][2]};
+            }}
+        """
     return sml + sm
 
 
@@ -38,7 +38,7 @@ def style_qtool_bar():
         stb = f"""
                     QToolBar {{
                         background-color: #000;
-                        border: 1px solid {config['cor_pref'][1]};
+                        border: 1px solid {config['cor_pref'][2]};
                     }}
                     QToolBar QToolButton {{
                         background-color: #000;
@@ -67,9 +67,9 @@ def style_qtool_bar():
 
 def style_qtext_edit():
     if config['theme'] == 'dark':
-        ste = "border: 1.5px dashed #333;"
+        ste = "border: 1px solid #333;"
     else:
-        ste = "border: 1.5px dashed #ddd;"
+        ste = "border: 1px solid #ddd;"
     return ste
 
 

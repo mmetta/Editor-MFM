@@ -5,6 +5,7 @@ import webbrowser
 
 from PySide6.QtPrintSupport import *
 
+from Dialog_Confirm import CustomDialog
 from Dialog_link import DialogLink
 from pyCore import *
 
@@ -295,7 +296,7 @@ class MainApp(QMainWindow):
 
         # App Settings
         config_action = QAction('Configurações', self)
-        config_action.triggered.connect(DialogConfig)
+        config_action.triggered.connect(self.set_config)
         about_menu.addAction(config_action)
 
         # About
@@ -307,6 +308,18 @@ class MainApp(QMainWindow):
         self.setMenuBar(menuBar)
 
         self.colors = ['ffffff', 'cccccc', '808080', '000000', 'ffff00', 'ff0000', '0000ff', '00ff00']
+
+    # #################################
+    # ####  RESTART AFTER CONFIG   ####
+    # #################################
+
+    def set_config(self):
+        conf = DialogConfig()
+        if conf.Changed:
+            re_st = CustomDialog('Reinicializar?', 'Deseja reinicializar o aplicativo agora?')
+            print(re_st)
+            if re_st.chosen == 'Success':
+                restart_program()
 
     # #################################
     # ####  STATUS EDITOR MONITOR  ####
@@ -638,6 +651,12 @@ class MainApp(QMainWindow):
             text = self.editor.document()
             printer.setPageMargins(QMargins(0, 0, 0, 0), QPageLayout.Unit.Millimeter)
             text.print_(printer)
+
+
+def restart_program():
+    QCoreApplication.quit()
+    status = QProcess.startDetached(sys.executable, sys.argv)
+    print(status)
 
 
 app = QApplication(sys.argv)
