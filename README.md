@@ -1,4 +1,4 @@
-<div align="center"><img src="https://github.com/mmetta/Editor-MFM/blob/main/icons/mfm_logo.png"/></div>
+<p align="center"><img src="https://github.com/mmetta/Editor-MFM/blob/main/icons/mfm_logo.png"/></p>
 <h1 align="center"> Editor-MFM </h1>
 
  É um editor de texto desenvolvido em <b>Python 3</b>, compacto porém com muitos recursos para gerar textos formatados, com imagens e links. Pode ser salvo em PDF, HTML, sem extensão ou com uma extensão criada por você, neste caso usei *.mfm, as iniciais do meu nome.
@@ -26,7 +26,6 @@
 
 <p align="right"><b>MFMetta - mar/2023</b></p>
 
-<div align="center">
 ![Badge](https://img.shields.io/badge/Python-3.11.1-blue)
 ![Badge](https://img.shields.io/badge/PySide6-6.4.2-orange)
 ![Badge](https://img.shields.io/github/issues/mmetta/Editor-MFM)
