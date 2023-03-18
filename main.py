@@ -78,9 +78,9 @@ class MainApp(QMainWindow):
         else:
             self.new_file()
 
-    # ###############################
-    # ####  Drag and Drop  ####
-    # ###############################
+    # ##########################################
+    # ####  Drag and Drop * Not implemented ####
+    # ##########################################
 
     def dragEnterEvent(self, event):
         print(event)
@@ -555,9 +555,9 @@ class MainApp(QMainWindow):
 
     def abrir_help(self):
         app_path = os.path.abspath(os.getcwd())
-        folder = "about"
+        folder = "sobre"
         path = os.path.join(app_path, folder)
-        path_help = os.path.normpath(os.path.join(path, 'mfm_editor_help.html'))
+        path_help = os.path.normpath(os.path.join(path, 'help.html'))
         webbrowser.open(path_help)
 
     # #################################
