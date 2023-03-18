@@ -27,5 +27,6 @@
 
 ![Badge](https://img.shields.io/badge/Python-3.11-blue)
 ![Badge](https://img.shields.io/badge/PySide6-6.4.2-orange)
+![Badge](https://img.shields.io/github/issues/mmetta/Editor-MFM)
 <br/>
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
