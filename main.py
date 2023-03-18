@@ -42,25 +42,14 @@ class MainApp(QMainWindow):
         self.closeEvent = self.fechar
         self.th_cores = []
 
-        self.cv_px = 3.77953
-
-        self.win_w = 230
-        self.win_h = 220
-
-        self.m_l = 21
-        self.m_t = 21
-        self.m_r = 21
-        self.m_b = 21
-
         # editor section
         self.editor = QTextEdit(self)
         self.editor.setAcceptDrops(True)
-        self.editor.setMinimumWidth(int(210 * self.cv_px))
-        self.editor.setMaximumWidth(int(210 * self.cv_px))
+        self.editor.setMinimumWidth(794)
+        self.editor.setMaximumWidth(794)
         self.editor.setStyleSheet('border: 0;')
         self.editor.viewport().setStyleSheet(style_qtext_edit())
-        self.editor.setViewportMargins(int(self.m_l * self.cv_px), int(self.m_t * self.cv_px),
-                                       int(self.m_r * self.cv_px), 0)
+        self.editor.setViewportMargins(80, 80, 80, 0)
         self.editor.setLocale(QLocale('pt_BR'))
         self.setCentralWidget(self.editor)
 
