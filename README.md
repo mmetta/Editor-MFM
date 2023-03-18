@@ -17,4 +17,4 @@ Reinicializa o editor para aplicação das alterações.
 
 Falta implementar Drag and Drop para imagens e terminar a página de ajuda, escrita em HTML no próprio editor e vizualizada no browser padrão do usuário.
 
-MFMetta - mar/2023,
+MFMetta - mar/2023.
