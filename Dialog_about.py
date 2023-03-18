@@ -41,7 +41,7 @@ class DialogAbout:
         layH_3 = QHBoxLayout()
         lbl_text = QLabel(
             '\n\tUm editor simples, porém útil e eficaz ' +
-            'na elaboração de documentos de texto ricos ' +
+            'na elaboração de documentos contendo textos ricos ' +
             'em formatação, links e imagens.\n\n' +
             '\tEsta versão conta com os recursos do ' +
             'PySide6, vários widgets, várias funções e ' +
