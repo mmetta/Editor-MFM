@@ -1,7 +1,7 @@
 import base64
 import os
 import sys
-import webbrowser
+# import webbrowser
 
 from PySide6.QtPrintSupport import *
 
@@ -554,11 +554,12 @@ class MainApp(QMainWindow):
         self.update_title()
 
     def abrir_help(self):
-        app_path = os.path.abspath(os.getcwd())
-        folder = "sobre"
-        path = os.path.join(app_path, folder)
-        path_help = os.path.normpath(os.path.join(path, 'help.html'))
-        webbrowser.open(path_help)
+        pass
+        # app_path = os.path.abspath(os.getcwd())
+        # folder = "sobre"
+        # path = os.path.join(app_path, folder)
+        # path_help = os.path.normpath(os.path.join(path, 'help.html'))
+        # webbrowser.open(path_help)
 
     # #################################
     # ####  OPEN e SAVE FUNCTIONS  ####

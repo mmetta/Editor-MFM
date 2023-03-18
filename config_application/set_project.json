@@ -24,9 +24,9 @@
         ]
     ],
     "cor_pref":[
-        "Verde",
-        "#d5ecd6",
-        "#00dd00"
+        "Azul",
+        "#bbdefb",
+        "#1565c0"
     ],
     "max":0,
     "theme":"dark"
