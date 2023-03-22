@@ -1,5 +1,5 @@
-from config_application.icon_coloring import cor_icon
 from pyCore import *
+from config_application.icon_coloring import cor_icon
 
 from config_application.estilos_config import style_qpush_button, style_qline_edit
 

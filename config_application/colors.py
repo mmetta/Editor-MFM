@@ -1,4 +1,3 @@
-# from PyQt5.uic.properties import QtGui, QtCore
 from pyCore import *
 
 

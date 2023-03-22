@@ -1,6 +1,3 @@
-import os
-import sys
-
 from pyCore import *
 
 from config_application.estilos_config import style_qpush_button
