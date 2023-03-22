@@ -3,7 +3,7 @@
 
  É um editor de texto desenvolvido em <b>Python 3</b>, compacto porém com muitos recursos para gerar textos formatados, com imagens e links. Pode ser salvo em PDF, HTML, sem extensão ou com uma extensão criada por você, neste caso usei *.mfm, as iniciais do meu nome.
  
- A ideia do projeto é disponibilizar um editor fácil leve e fácil de usar que permita aproveitar os recursos personalizáveis do HTML.
+ A ideia do projeto é disponibilizar um editor leve e fácil de usar para gerar documentos complexos e bonitos adicionando ao texto os recursos personalizáveis do HTML.
 
  <b>O projeto conta com diversos recursos do PySide6:</b><br/>
 
@@ -21,7 +21,8 @@
  QPrintPreviewDialog<br/>
  QProcess<br/>
 
- Permite configuração de esquema de cores e tema Dark ou Light.<br/>
+ Essa grande quantidade de elementos pretende servir de exemplo de suas implementações e permitir configurações pessoais como a de esquema de cores e tema Dark ou Light.<br/>
+ 
  Reinicializa o editor para aplicação das configurações escolhidas pelo usuário.
 
 <p align="right"><b>MFMetta - mar/2023</b></p>
