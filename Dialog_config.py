@@ -1,9 +1,13 @@
+from pathlib import Path
+
+from atual_path import local_path
 from pyCore import *
 
-from config_application.estilos_config import style_qpush_button
-from config_application.settings import project_settings, save_new_conf
-from config_application.icon_coloring import cor_icon
+from config_app.estilos_config import style_qpush_button
+from config_app.settings import project_settings, save_new_conf
+from config_app.icon_coloring import cor_icon
 
+base_path = Path(local_path(), './icons/light/')
 config = project_settings()
 
 
@@ -18,7 +22,8 @@ class DialogConfig:
         self.dialog_config.setWindowTitle('Configurações do App')
         self.dialog_config.setMinimumSize(320, 400)
         self.dialog_config.setMaximumSize(320, 400)
-        self.dialog_config.setWindowIcon(cor_icon(f"icons/light/settings.svg"))
+        cog_ico = Path(base_path, 'settings.svg')
+        self.dialog_config.setWindowIcon(cor_icon(cog_ico))
 
         layV_c = QVBoxLayout(self.dialog_config)
         lbl1_c = QLabel('Escolha suas preferências')

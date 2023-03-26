@@ -1,4 +1,4 @@
-from config_application.settings import project_settings
+from config_app.settings import project_settings
 
 config = project_settings()
 

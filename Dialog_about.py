@@ -1,7 +1,11 @@
+from pathlib import Path
+
+from atual_path import local_path
 from pyCore import *
 
-from config_application.estilos_config import style_qpush_button
+from config_app.estilos_config import style_qpush_button
 
+base_path = Path(local_path(), './icons')
 
 class DialogAbout:
 
@@ -20,7 +24,8 @@ class DialogAbout:
 
         layH_1 = QHBoxLayout()
         lbl_logo = QLabel('Logo')
-        img = QPixmap('icons/mfm_logo.png')
+        mfm_logo = Path(base_path, 'mfm_logo.png')
+        img = QPixmap(mfm_logo)
         img = img.scaledToWidth(50)
         lbl_logo.setPixmap(img)
         lbl_logo.setAlignment(Qt.AlignCenter)

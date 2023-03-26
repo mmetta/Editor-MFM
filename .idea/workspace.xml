@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d768d8d1-50eb-4efa-8a77-c489609d9826" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/atual_path.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dialog_about.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dialog_about.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dialog_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dialog_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dialog_link.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dialog_link.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_application/colors.py" beforeDir="false" afterPath="$PROJECT_DIR$/config_app/colors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_application/estilos_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config_app/estilos_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_application/icon_coloring.py" beforeDir="false" afterPath="$PROJECT_DIR$/config_app/icon_coloring.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_application/set_project.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/set_project.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_application/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config_app/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2NYJsVKWk94GHzrhiB3f3rzFdxN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Projects/scan_dir.py",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projects\Editor-MFM\data" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d768d8d1-50eb-4efa-8a77-c489609d9826" name="Changes" comment="" />
+      <created>1679835288527</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679835288527</updated>
+    </task>
+    <servers />
+  </component>
+</project>

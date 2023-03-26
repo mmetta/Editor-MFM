@@ -1,10 +1,12 @@
 import base64
 import sys
+from pathlib import Path
 
 from PySide6.QtPrintSupport import *
 
 from Dialog_Confirm import CustomDialog
 from Dialog_link import DialogLink
+from atual_path import local_path
 from pyCore import *
 
 import qdarkstyle
@@ -13,11 +15,12 @@ from qdarkstyle.light.palette import LightPalette
 
 from Dialog_about import DialogAbout
 from Dialog_config import DialogConfig
-from config_application.estilos_config import style_qmenu, style_qmenu_bar, style_qtool_bar, style_qtext_edit, \
+from config_app.estilos_config import style_qmenu, style_qmenu_bar, style_qtool_bar, style_qtext_edit, \
     style_qcombo_box, style_qspin_box, style_qpush_button
-from config_application.settings import project_settings
-from config_application.icon_coloring import cor_icon
+from config_app.settings import project_settings
+from config_app.icon_coloring import cor_icon
 
+base_path = Path(local_path(), './icons')
 config = project_settings()
 
 if config['theme'] == 'dark':
@@ -124,7 +127,8 @@ class MainApp(QMainWindow):
         self.evento = ev
         self.dlg = QDialog(self)
         self.dlg.setWindowTitle('Salvar')
-        self.dlg.setWindowIcon(cor_icon(f"icons/light/save.svg"))
+        f_icon = str(Path(base_path, 'light/save.svg'))
+        self.dlg.setWindowIcon(cor_icon(f_icon))
         self.dlg.setMinimumSize(320, 90)
         lay_v = QVBoxLayout(self.dlg)
         nome = self.path
@@ -343,13 +347,15 @@ class MainApp(QMainWindow):
 
         ToolBar.setStyleSheet(style_qtool_bar())
 
-            # undo
-        undo_action = QAction(cor_icon(f"icons/light/undo.svg"), 'Desfazer', self)
+        # undo
+        undo = Path(base_path, 'light/undo.svg')
+        undo_action = QAction(cor_icon(undo), 'Desfazer', self)
         undo_action.triggered.connect(self.editor.undo)
         ToolBar.addAction(undo_action)
 
         # redo
-        redo_action = QAction(cor_icon(f"icons/light/redo.svg"), 'Refazer', self)
+        redo = Path(base_path, 'light/redo.svg')
+        redo_action = QAction(cor_icon(redo), 'Refazer', self)
         redo_action.triggered.connect(self.editor.redo)
         ToolBar.addAction(redo_action)
 
@@ -357,17 +363,20 @@ class MainApp(QMainWindow):
         ToolBar.addSeparator()
 
         # cut
-        cut_action = QAction(cor_icon(f"icons/light/cut.svg"), 'Cortar', self)
+        cut = Path(base_path, 'light/cut.svg')
+        cut_action = QAction(cor_icon(cut), 'Cortar', self)
         cut_action.triggered.connect(self.editor.cut)
         ToolBar.addAction(cut_action)
 
         # copy
-        copy_action = QAction(cor_icon(f"icons/light/copy.svg"), 'Copiar', self)
+        copy = Path(base_path, 'light/copy.svg')
+        copy_action = QAction(cor_icon(copy), 'Copiar', self)
         copy_action.triggered.connect(self.editor.copy)
         ToolBar.addAction(copy_action)
 
         # paste
-        paste_action = QAction(cor_icon(f"icons/light/paste.svg"), 'Colar', self)
+        paste = Path(base_path, 'light/paste.svg')
+        paste_action = QAction(cor_icon(paste), 'Colar', self)
         paste_action.triggered.connect(self.editor.paste)
         ToolBar.addAction(paste_action)
 
@@ -413,17 +422,20 @@ class MainApp(QMainWindow):
         ToolBar.addSeparator()
 
         # bold
-        bold_action = QAction(cor_icon(f"icons/light/bold.svg"), 'Bold', self)
+        bold = Path(base_path, 'light/bold.svg')
+        bold_action = QAction(cor_icon(bold), 'Bold', self)
         bold_action.triggered.connect(self.bold_text)
         ToolBar.addAction(bold_action)
 
         # underline
-        underline_action = QAction(cor_icon(f"icons/light/underline.svg"), 'Underline', self)
+        underline = Path(base_path, 'light/underline.svg')
+        underline_action = QAction(cor_icon(underline), 'Underline', self)
         underline_action.triggered.connect(self.underline_text)
         ToolBar.addAction(underline_action)
 
         # italic
-        italic_action = QAction(cor_icon(f"icons/light/italic.svg"), 'Italic', self)
+        italic = Path(base_path, 'light/italic.svg')
+        italic_action = QAction(cor_icon(italic), 'Italic', self)
         italic_action.triggered.connect(self.italic_text)
         ToolBar.addAction(italic_action)
 
@@ -431,30 +443,36 @@ class MainApp(QMainWindow):
         ToolBar.addSeparator()
 
         # text alignment
-        left_alignment_action = QAction(cor_icon(f"icons/light/left-align.svg"), 'Esquerda', self)
+        left_align = Path(base_path, 'light/left-align.svg')
+        left_alignment_action = QAction(cor_icon(left_align), 'Esquerda', self)
         left_alignment_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignLeft))
         ToolBar.addAction(left_alignment_action)
 
-        center_action = QAction(cor_icon(f"icons/light/center-align.svg"), 'Centralizar', self)
+        center_align = Path(base_path, 'light/center-align.svg')
+        center_action = QAction(cor_icon(center_align), 'Centralizar', self)
         center_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignCenter))
         ToolBar.addAction(center_action)
 
-        justification_action = QAction(cor_icon(f"icons/light/justify-align.svg"), 'Justificado', self)
+        justify_align = Path(base_path, 'light/justify-align.svg')
+        justification_action = QAction(cor_icon(justify_align), 'Justificado', self)
         justification_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignJustify))
         ToolBar.addAction(justification_action)
 
-        right_alignment_action = QAction(cor_icon(f"icons/light/right-align.svg"), 'Direita', self)
+        right_align = Path(base_path, 'light/right-align.svg')
+        right_alignment_action = QAction(cor_icon(right_align), 'Direita', self)
         right_alignment_action.triggered.connect(lambda: self.editor.setAlignment(Qt.AlignRight))
         ToolBar.addAction(right_alignment_action)
 
         # separator
         ToolBar.addSeparator()
 
-        image_action = QAction(cor_icon(f"icons/light/picture.svg"), 'Imagem', self)
+        picture = Path(base_path, 'light/picture.svg')
+        image_action = QAction(cor_icon(picture), 'Imagem', self)
         image_action.triggered.connect(self.insert_image)
         ToolBar.addAction(image_action)
 
-        link_action = QAction(cor_icon(f"icons/light/link-plus.svg"), 'Link', self)
+        link_plus = Path(base_path, 'light/link-plus.svg')
+        link_action = QAction(cor_icon(link_plus), 'Link', self)
         link_action.triggered.connect(self.insert_link)
         ToolBar.addAction(link_action)
 
@@ -653,8 +671,11 @@ def restart_program():
     print(status)
 
 
+fav = str(Path(base_path, 'favicon.ico'))
+
+
 app = QApplication(sys.argv)
-app.setWindowIcon(QIcon("icons/favicon.ico"))
+app.setWindowIcon(QIcon(fav))
 app.setStyleSheet(qdarkstyle.load_stylesheet(tema))
 window = MainApp()
 window.show()
