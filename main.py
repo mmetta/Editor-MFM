@@ -1,4 +1,5 @@
 import base64
+import os
 import sys
 from pathlib import Path
 
@@ -17,11 +18,19 @@ from Dialog_about import DialogAbout
 from Dialog_config import DialogConfig
 from config_app.estilos_config import style_qmenu, style_qmenu_bar, style_qtool_bar, style_qtext_edit, \
     style_qcombo_box, style_qspin_box, style_qpush_button
-from config_app.settings import project_settings
+# from config_app.settings import project_settings
 from config_app.icon_coloring import cor_icon
+from sqlite_data import create_db, select_all
+
+appData = os.getenv('APPDATA') + '\\EditorMFM'
+db_dir = os.path.isdir(appData)
+if not db_dir:
+    os.makedirs(os.path.join(os.environ['APPDATA'], 'EditorMFM'))
+    create_db()
 
 base_path = Path(local_path(), './icons')
-config = project_settings()
+# config = project_settings()
+config = select_all()
 
 if config['theme'] == 'dark':
     tema = DarkPalette
@@ -72,12 +81,37 @@ class MainApp(QMainWindow):
 
         self.alterado = ''
         self.n_chr = ''
+        self.evento = ''
+
+        self.open_extern()
 
     def fechar(self, event):
         if self.alterado == '*' and self.editor.toPlainText() != '':
+            self.evento = 'fechar'
             self.dialog_save(event)
         else:
             self.new_file()
+
+    def abrir(self, event):
+        if self.alterado == '*' and self.editor.toPlainText() != '':
+            self.evento = 'abrir'
+            self.dialog_save(event)
+        else:
+            self.file_open()
+
+    def open_extern(self):
+        try:
+            arg = sys.argv
+            path = arg[1]
+            with open(path, 'r') as f:
+               text = f.read()
+        except Exception as e:
+            print(e)
+        else:
+            self.path = str(path).replace('\\', '/')
+            self.n_chr = 'open'
+            self.editor.setHtml(text)
+            self.update_title()
 
     # ##########################################
     # ####  Drag and Drop * Not implemented ####
@@ -122,9 +156,9 @@ class MainApp(QMainWindow):
     # ###############################
 
     def dialog_save(self, ev):
-        if not ev:
-            ev = 'fechar'
-        self.evento = ev
+        # if not ev:
+        #     ev = 'fechar'
+        # self.evento = ev
         self.dlg = QDialog(self)
         self.dlg.setWindowTitle('Salvar')
         f_icon = str(Path(base_path, 'light/save.svg'))
@@ -153,13 +187,15 @@ class MainApp(QMainWindow):
         self.dlg.exec()
 
     def cancel_save(self):
-        if self.evento != 'fechar':
+        if self.evento != 'fechar' and self.evento != 'abrir':
             self.evento.ignore()
         self.dlg.close()
 
     def no_save(self):
         if self.evento == 'fechar':
             self.new_file()
+        if self.evento == 'abrir':
+            self.file_open()
         self.dlg.close()
 
     def yes_save(self):
@@ -168,6 +204,8 @@ class MainApp(QMainWindow):
         self.update_title()
         if self.evento == 'fechar':
             self.new_file()
+        if self.evento == 'abrir':
+            self.file_open()
         self.dlg.close()
 
     def editor_changed(self):
@@ -180,6 +218,7 @@ class MainApp(QMainWindow):
             self.update_title()
         if self.n_chr == 'open':
             self.n_chr = ''
+            self.alterado = ''
 
     # ###############################
     # ####    CREATE MENU BAR    ####
@@ -203,7 +242,7 @@ class MainApp(QMainWindow):
         file_menu.addAction(new_action)
 
         open_action = QAction('Abrir', self)
-        open_action.triggered.connect(self.file_open)
+        open_action.triggered.connect(self.abrir)
         file_menu.addAction(open_action)
 
         save_action = QAction('Salvar', self)
@@ -319,7 +358,6 @@ class MainApp(QMainWindow):
         conf = DialogConfig()
         if conf.Changed:
             re_st = CustomDialog('Reinicializar?', 'Deseja reinicializar o aplicativo agora?')
-            print(re_st)
             if re_st.chosen == 'Success':
                 restart_program()
 
@@ -668,15 +706,15 @@ class MainApp(QMainWindow):
 def restart_program():
     QCoreApplication.quit()
     status = QProcess.startDetached(sys.executable, sys.argv)
-    print(status)
 
 
 fav = str(Path(base_path, 'favicon.ico'))
 
 
-app = QApplication(sys.argv)
-app.setWindowIcon(QIcon(fav))
-app.setStyleSheet(qdarkstyle.load_stylesheet(tema))
-window = MainApp()
-window.show()
-sys.exit(app.exec())
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon(fav))
+    app.setStyleSheet(qdarkstyle.load_stylesheet(tema))
+    window = MainApp()
+    window.show()
+    sys.exit(app.exec())
