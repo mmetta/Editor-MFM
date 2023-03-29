@@ -1,8 +1,10 @@
 from pyCore import *
+from sqlite_data import select_all
 
-from config_app.settings import project_settings
+# from config_app.settings import project_settings
 
-config = project_settings()
+# config = project_settings()
+config = select_all()
 
 
 def cor_icon(path):

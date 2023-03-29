@@ -4,11 +4,13 @@ from atual_path import local_path
 from pyCore import *
 
 from config_app.estilos_config import style_qpush_button
-from config_app.settings import project_settings, save_new_conf
+# from config_app.settings import project_settings, save_new_conf
 from config_app.icon_coloring import cor_icon
+from sqlite_data import select_all, update_data
 
 base_path = Path(local_path(), './icons/light/')
-config = project_settings()
+# config = project_settings()
+config = select_all()
 
 
 class DialogConfig:
@@ -230,6 +232,7 @@ class DialogConfig:
 
         self.new_conf['cor_pref'] = pref
 
-        save_new_conf(self.new_conf)
+        # save_new_conf(self.new_conf)
+        update_data(self.new_conf)
         self.dialog_config.close()
         self.Changed = True

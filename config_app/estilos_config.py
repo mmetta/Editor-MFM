@@ -1,7 +1,8 @@
-from config_app.settings import project_settings
+# from config_app.settings import project_settings
+from sqlite_data import select_all
 
-config = project_settings()
-
+# config = project_settings()
+config = select_all()
 
 def style_qmenu():
     sml = ""
