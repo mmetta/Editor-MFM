@@ -309,19 +309,12 @@ class EditorHtml(QWidget):
         self.font_size.setStyleSheet(style_qspin_box())
         ToolBar.addWidget(self.font_size)
 
-        # color
-        self.font_color = QComboBox(self)
-        self.model = self.font_color.model()
-        for cor in self.colors:
-            path_icon = f'icons/{cor}.png'
-            cor_item = f'#{cor}'
-            item = QStandardItem()
-            item.setText(str(cor_item))
-            item.setTextAlignment(Qt.AlignCenter)
-            item.setIcon(QIcon(path_icon))
-            self.model.appendRow(item)
-        self.font_color.activated.connect(self.set_color)
-        self.font_color.setStyleSheet(style_qcombo_box())
+        ToolBar.addSeparator()
+
+        self.font_color = QPushButton()
+        self.font_color.setFixedSize(QSize(16, 16))
+        self.font_color.setStyleSheet('border: 0; Background-color: #000')
+        self.font_color.clicked.connect(self.showDialog)
         ToolBar.addWidget(self.font_color)
 
         # separator
@@ -408,13 +401,13 @@ class EditorHtml(QWidget):
     def status_editor(self):
         self.font_size.setValue(int(self.editor.fontPointSize()))
         self.font_combo.setCurrentText(self.editor.fontFamily())
-        for i, cor in enumerate(self.colors):
-            if self.editor.textColor().name() == f'#{cor}':
-                self.font_color.setCurrentIndex(i)
+        # for i, cor in enumerate(self.colors):
+        #     if self.editor.textColor().name() == f'#{cor}':
+        #         self.font_color.setCurrentIndex(i)
 
-    # ###############################
-    # ####    METHODS MENUBAR    ####
-    # ###############################
+    # ##################################
+    # ####    METHODS MENU TOOLS    ####
+    # ##################################
     def fechar(self, event):
         if self.alterado == '*' and self.editor.toPlainText() != '':
             self.evento = 'fechar'
@@ -428,6 +421,14 @@ class EditorHtml(QWidget):
             self.dialog_save(event)
         else:
             self.file_open()
+
+    def showDialog(self):
+        dialog = QColorDialog(self.editor.textColor().name())
+        # dialog.setOption(QColorDialog.ShowAlphaChannel, True)
+        color = dialog.getColor()
+        if color.isValid():
+            self.font_color.setStyleSheet("background-color: %s" % color.name())
+            self.editor.setTextColor(QColor(color.name()))
 
     def open_img(self):
         try:
