@@ -38,21 +38,18 @@ class DialogAbout:
         layH_2.addWidget(lbl_nome)
 
         layH_5 = QHBoxLayout()
-        lbl_version = QLabel('versão 0.0.1')
+        lbl_version = QLabel('versão 0.0.2')
         lbl_version.setFont(QFont('Arial', 10, 400))
         layH_5.setAlignment(Qt.AlignCenter)
         layH_5.addWidget(lbl_version)
 
+        texto = '    Um editor simples, porém útil e eficaz na elaboração de documentos contendo textos' \
+                ' ricos em formatação, links e imagens.\n\n    Esta versão conta com os recursos do PySide6, ' \
+                'vários widgets, várias funções e classes do Python 3.11, aproveitem.'
+
         layH_3 = QHBoxLayout()
-        lbl_text = QLabel(
-            '\n\tUm editor simples, porém útil e eficaz ' +
-            'na elaboração de documentos contendo textos ricos ' +
-            'em formatação, links e imagens.\n\n' +
-            '\tEsta versão conta com os recursos do ' +
-            'PySide6, vários widgets, várias funções e ' +
-            'classes do Python 3.11, aproveitem.\n'
-        )
-        lbl_text.setMinimumWidth(250)
+        lbl_text = QLabel(texto)
+        lbl_text.setMinimumWidth(244)
         lbl_text.setFont(QFont('Arial', 10))
         lbl_text.setWordWrap(True)
         lbl_text.setAlignment(Qt.AlignJustify)

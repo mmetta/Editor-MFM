@@ -5,13 +5,13 @@ from pathlib import Path
 
 from PySide6.QtPrintSupport import *
 
+from Dialog_Confirm import CustomDialog
 from Dialog_link import DialogLink
 from atual_path import local_path
 from pyCore import *
 
 from Dialog_about import DialogAbout
 from DialogResize import ResizeDialog
-from Dialog_Confirm import CustomDialog
 from config_app.estilos_config import style_qmenu, style_qmenu_bar, style_qtool_bar, style_qtext_edit, \
     style_qcombo_box, style_qspin_box, style_qpush_button
 from config_app.icon_coloring import cor_icon
@@ -48,11 +48,16 @@ class MyEditor(QTextEdit):
 
 class EditorHtml(QWidget):
     get_config = Signal(str)
+    edit_title = Signal(str)
+    show_minimized = Signal()
+    show_maximized = Signal()
+    show_full_screen = Signal()
+    show_normal = Signal()
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        self.title = "MFM Editor 0.0.1"
+        self.title = "MFM Editor 0.0.2"
 
         self.editor = MyEditor()
         self.editor.setAcceptDrops(True)
@@ -86,6 +91,18 @@ class EditorHtml(QWidget):
         self.lay_v.addWidget(self.editor)
 
         self.editor.imageInserted.connect(self.insert_image)
+
+    def show_min_win(self):
+        self.show_minimized.emit()
+
+    def show_max_win(self):
+        self.show_maximized.emit()
+
+    def show_full_win(self):
+        self.show_full_screen.emit()
+
+    def show_norm(self):
+        self.show_normal.emit()
 
     def open_config(self):
         self.get_config.emit('conf')
@@ -167,6 +184,11 @@ class EditorHtml(QWidget):
         menuBar.addMenu(edit_menu)
 
         # copy
+        font_action = QAction('Font', self)
+        font_action.triggered.connect(self.font_dialog)
+        edit_menu.addAction(font_action)
+
+        # copy
         copy_action = QAction('Copiar', self)
         copy_action.triggered.connect(self.editor.copy)
         edit_menu.addAction(copy_action)
@@ -199,22 +221,22 @@ class EditorHtml(QWidget):
 
         # minimize
         minscr_action = QAction('Minimizar', self)
-        minscr_action.triggered.connect(lambda: self.showMinimized())
+        minscr_action.triggered.connect(self.show_minimized)
         view_menu.addAction(minscr_action)
 
         # maxmize
         maxscr_action = QAction('Maximizar', self)
-        maxscr_action.triggered.connect(lambda: self.showMaximized())
+        maxscr_action.triggered.connect(self.show_max_win)
         view_menu.addAction(maxscr_action)
 
         # fullscreen
         fullscr_action = QAction('Tela cheia', self)
-        fullscr_action.triggered.connect(lambda: self.showFullScreen())
+        fullscr_action.triggered.connect(self.show_full_win)
         view_menu.addAction(fullscr_action)
 
         # normal screen
         normscr_action = QAction('Tela normal', self)
-        normscr_action.triggered.connect(lambda: self.showNormal())
+        normscr_action.triggered.connect(self.show_norm)
         view_menu.addAction(normscr_action)
         view_menu.setStyleSheet(style_qmenu())
 
@@ -289,23 +311,21 @@ class EditorHtml(QWidget):
         # adding separator
         ToolBar.addSeparator()
 
-        # fonts
-        font_family = ['Arial', 'Arial Black', 'Calibri', 'Comic Sans MS', 'Corbel',
-                       'Courrier New', 'Elephant', 'Georgia', 'Segoe Script', 'Tahoma',
-                       'Times New Roman', 'Verdana']
+        fontDB = QFontDatabase()
+        fontFamilies = fontDB.families()
         self.font_combo = QComboBox(self)
-        self.font_combo.addItems(font_family)
+        self.font_combo.addItems(fontFamilies)
         self.font_combo.activated.connect(self.set_font)  # connect with function
         self.font_combo.setStyleSheet(style_qcombo_box())
-        self.font_combo.setMaxVisibleItems(len(font_family))
-        self.font_combo.setFont(QFont('Arial', 9))
+        self.font_combo.setMaxVisibleItems(20)
+        self.font_combo.setCurrentText('Arial')
         ToolBar.addWidget(self.font_combo)
 
         # font size
         self.font_size = QSpinBox(self)
         self.font_size.setValue(12)
         self.font_size.valueChanged.connect(self.set_font_size)
-        self.font_size.setFont(QFont('Arial', 9))
+        self.font_size.setMinimumHeight(18)
         self.font_size.setStyleSheet(style_qspin_box())
         ToolBar.addWidget(self.font_size)
 
@@ -314,7 +334,7 @@ class EditorHtml(QWidget):
         self.font_color = QPushButton()
         self.font_color.setFixedSize(QSize(16, 16))
         self.font_color.setStyleSheet('border: 0; Background-color: #000')
-        self.font_color.clicked.connect(self.showDialog)
+        self.font_color.clicked.connect(self.show_color_dialog)
         ToolBar.addWidget(self.font_color)
 
         # separator
@@ -399,11 +419,10 @@ class EditorHtml(QWidget):
     # ####  STATUS EDITOR MONITOR  ####
     # #################################
     def status_editor(self):
-        self.font_size.setValue(int(self.editor.fontPointSize()))
+        # self.font_size.setValue(int(self.editor.fontPointSize()))
         self.font_combo.setCurrentText(self.editor.fontFamily())
-        # for i, cor in enumerate(self.colors):
-        #     if self.editor.textColor().name() == f'#{cor}':
-        #         self.font_color.setCurrentIndex(i)
+        bgc = f'background-color: {self.editor.textColor().name()};'
+        self.font_color.setStyleSheet(bgc)
 
     # ##################################
     # ####    METHODS MENU TOOLS    ####
@@ -422,10 +441,27 @@ class EditorHtml(QWidget):
         else:
             self.file_open()
 
-    def showDialog(self):
-        dialog = QColorDialog(self.editor.textColor().name())
-        # dialog.setOption(QColorDialog.ShowAlphaChannel, True)
-        color = dialog.getColor()
+    def font_dialog(self):
+        family = self.editor.fontFamily()
+        if not family:
+            family = 'Arial'
+        font_init = QFont(family, int(self.editor.fontPointSize()))
+        ok, font = QFontDialog().getFont(font_init)
+        if font:
+            self.editor.setCurrentFont(font)
+            self.editor.setFontPointSize(font.pointSize())
+
+    def show_color_dialog(self):
+        cor = self.editor.textColor().name()
+        rgb = self.hex_to_rgb(cor)
+        color_dialog = QColorDialog()
+        color = color_dialog.getColor(rgb)
+        # options = self.color_dialog.options()
+        # print(options)
+        # options=QColorDialog.ColorDialogOption.NoButtons
+        # dialog.setOptions(QColorDialog.ColorDialogOption.DontUseNativeDialog)
+        # dialog.open()
+        # color = dialog.currentColor()
         if color.isValid():
             self.font_color.setStyleSheet("background-color: %s" % color.name())
             self.editor.setTextColor(QColor(color.name()))
@@ -546,9 +582,11 @@ class EditorHtml(QWidget):
         if self.path != '':
             part = self.path.split('/')
             n = len(part)
-            self.setWindowTitle(self.title + ' - ' + part[n - 1] + self.alterado)
+            title = str(self.title + ' - ' + part[n - 1] + self.alterado)
+            self.edit_title.emit(title)
         else:
-            self.setWindowTitle(self.title + ' ' + self.alterado)
+            title = str(self.title + ' ' + self.alterado)
+            self.edit_title.emit(title)
 
     def printPreview(self, printer):
         printer.setResolution(96)
@@ -656,8 +694,10 @@ class EditorHtml(QWidget):
                     width = image_format.width()
                     height = image_format.height()
                     self.dialog_size(width, height, binary)
+            else:
+                CustomDialog('Redimensionar imagem', 'Redimensionar apenas imagem.\nPara texto, altere o tamanho da fonte.\n')
         else:
-            CustomDialog('Redimensionar imagem', 'Selecione primeiro a imagem que irá redimensionar.')
+            CustomDialog('Redimensionar imagem', 'Selecione primeiro a imagem que irá redimensionar.\n')
 
     def insert_image(self, path):
         img = path
@@ -691,3 +731,9 @@ class EditorHtml(QWidget):
         if cursor.hasSelection():
             html = "<img src='{}' width={} height={}>".format(self.ba, width, height)
             cursor.insertHtml(html)
+
+    def hex_to_rgb(self, hex_string):
+        r_hex = hex_string[1:3]
+        g_hex = hex_string[3:5]
+        b_hex = hex_string[5:7]
+        return QColor(int(r_hex, 16), int(g_hex, 16), int(b_hex, 16))
