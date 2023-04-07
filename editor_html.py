@@ -92,6 +92,14 @@ class EditorHtml(QWidget):
 
         self.editor.imageInserted.connect(self.insert_image)
 
+    def show_color_dialog(self):
+        cor = self.editor.textColor().name()
+        color_dialog = QColorDialog(self)
+        color = color_dialog.getColor(cor)
+        if color.isValid():
+            self.font_color.setStyleSheet("background-color: %s" % color.name())
+            self.editor.setTextColor(QColor(color.name()))
+
     def show_min_win(self):
         self.show_minimized.emit()
 
@@ -450,21 +458,6 @@ class EditorHtml(QWidget):
         if font:
             self.editor.setCurrentFont(font)
             self.editor.setFontPointSize(font.pointSize())
-
-    def show_color_dialog(self):
-        cor = self.editor.textColor().name()
-        rgb = self.hex_to_rgb(cor)
-        color_dialog = QColorDialog()
-        color = color_dialog.getColor(rgb)
-        # options = self.color_dialog.options()
-        # print(options)
-        # options=QColorDialog.ColorDialogOption.NoButtons
-        # dialog.setOptions(QColorDialog.ColorDialogOption.DontUseNativeDialog)
-        # dialog.open()
-        # color = dialog.currentColor()
-        if color.isValid():
-            self.font_color.setStyleSheet("background-color: %s" % color.name())
-            self.editor.setTextColor(QColor(color.name()))
 
     def open_img(self):
         try:
