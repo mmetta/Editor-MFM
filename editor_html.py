@@ -54,12 +54,12 @@ class EditorHtml(QWidget):
     show_full_screen = Signal()
     show_normal = Signal()
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, *args):
+        super().__init__()
 
         self.title = "MFM Editor 0.0.2"
 
-        self.editor = MyEditor()
+        self.editor = MyEditor(self)
         self.editor.setAcceptDrops(True)
         self.editor.setMinimumWidth(794)
         self.editor.setMaximumWidth(794)
@@ -94,7 +94,7 @@ class EditorHtml(QWidget):
 
     def show_color_dialog(self):
         cor = self.editor.textColor().name()
-        color_dialog = QColorDialog(self)
+        color_dialog = QColorDialog()
         color = color_dialog.getColor(cor)
         if color.isValid():
             self.font_color.setStyleSheet("background-color: %s" % color.name())

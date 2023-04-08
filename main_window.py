@@ -25,8 +25,8 @@ else:
 
 
 class MainWindow(object):
-    def __init__(self, *args, **kwargs):
-        self.editor = EditorHtml(*args, **kwargs)
+    def __init__(self):
+        self.editor = EditorHtml()
         self.main_layout = None
         self.central_frame = None
 
