@@ -1,15 +1,18 @@
+import colorsys
+
 from pathlib import Path
 
-from atual_path import local_path
-from pyCore import *
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont, QIntValidator
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QWidget, QHBoxLayout, QRadioButton, QButtonGroup, \
+    QSpacerItem, QSizePolicy, QLineEdit, QPushButton
 
-from config_app.estilos_config import style_qpush_button
-# from config_app.settings import project_settings, save_new_conf
-from config_app.icon_coloring import cor_icon
+from atual_path import local_path
+from icon_coloring import cor_icon
+
 from sqlite_data import select_all, update_data
 
-base_path = Path(local_path(), './icons/light/')
-# config = project_settings()
+base_path = Path(local_path(), './icons/')
 config = select_all()
 
 
@@ -153,15 +156,17 @@ class DialogConfig:
         else:
             self.size_def.setChecked(True)
 
-        lbl4_c = QLabel('Largura:')
+        lbl4_c = QLabel('Largura-min 840:')
         self.edit_w = QLineEdit()
         self.edit_w.setText(str(config['app_w']))
-        self.edit_w.setValidator(QIntValidator())
+        self.edit_w.setValidator(QIntValidator(840, 3000))
+        self.edit_w.textChanged.connect(self.w_changed)
         self.edit_w.setDisabled(self.size_max.isChecked())
-        lbl5_c = QLabel('Altura:')
+        lbl5_c = QLabel('Altura-min 600:')
         self.edit_h = QLineEdit()
         self.edit_h.setText(str(config['app_h']))
-        self.edit_h.setValidator(QIntValidator())
+        self.edit_h.setValidator(QIntValidator(600, 2000))
+        self.edit_h.textChanged.connect(self.h_changed)
         self.edit_h.setDisabled(self.size_max.isChecked())
         edit_Hlay = QHBoxLayout()
         edit_Hlay.addWidget(lbl4_c)
@@ -176,11 +181,11 @@ class DialogConfig:
         lbl_c.setAlignment(Qt.AlignCenter)
 
         btn_c_yes = QPushButton('Salvar')
-        btn_c_yes.setStyleSheet(style_qpush_button())
+        # btn_c_yes.setStyleSheet(style_qpush_button())
         btn_c_yes.clicked.connect(self.config_save)
 
         btn_c_no = QPushButton('Cancelar')
-        btn_c_no.setStyleSheet(style_qpush_button())
+        # btn_c_no.setStyleSheet(style_qpush_button())
         btn_c_no.clicked.connect(self.config_no_save)
 
         layH_c = QHBoxLayout()
@@ -203,6 +208,16 @@ class DialogConfig:
         layV_c.addLayout(layH_c)
         self.dialog_config.exec()
 
+    def h_changed(self, text):
+        if text:
+            color = 'color: red' if int(text) < 600 else 'color: palette(WindowText);'
+            self.edit_h.setStyleSheet(color)
+
+    def w_changed(self, text):
+        if text:
+            color = 'color: red' if int(text) < 840 else 'color: palette(WindowText)'
+            self.edit_w.setStyleSheet(color)
+
     def check_edit(self):
         self.edit_w.setDisabled(self.size_max.isChecked())
         self.edit_h.setDisabled(self.size_max.isChecked())
@@ -218,6 +233,8 @@ class DialogConfig:
             mx = 1
         else:
             mx = 0
+            self.edit_w.setText('840') if int(self.edit_w.text()) < 840 else None
+            self.edit_h.setText('600') if int(self.edit_h.text()) < 600 else None
             self.new_conf['app_w'] = int(self.edit_w.text())
             self.new_conf['app_h'] = int(self.edit_h.text())
         self.new_conf['theme'] = th.text()
@@ -232,7 +249,25 @@ class DialogConfig:
 
         self.new_conf['cor_pref'] = pref
 
+        print(pref)
+
         # save_new_conf(self.new_conf)
         update_data(self.new_conf)
         self.dialog_config.close()
         self.Changed = True
+
+    # Define cor secundária com 30% da cor primária
+    def lighten_color(self, cor, theme):
+        # Convert color to RGB format
+        color = cor[1:6]
+        r = int(color[0:2], 16)
+        g = int(color[2:4], 16)
+        b = int(color[4:6], 16)
+        div = 0.6 if theme == 'dark' else 1.7
+        # Lighten each channel by 70%
+        hls = colorsys.rgb_to_hls(r / 255.0, g / 255.0, b / 255.0)
+        hls = (hls[0], min(1, hls[1] * div), hls[2])
+        rgb = tuple(int(round(i * 255)) for i in colorsys.hls_to_rgb(*hls))
+
+        # Convert back to hexadecimal format
+        return '#{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])

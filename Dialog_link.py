@@ -1,7 +1,8 @@
-from pyCore import *
-from config_app.icon_coloring import cor_icon
+from PySide6.QtCore import QSize, Qt
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton
 
-from config_app.estilos_config import style_qpush_button, style_qline_edit
+from icon_coloring import cor_icon
 
 
 class DialogLink:
@@ -11,7 +12,7 @@ class DialogLink:
 
         self.dialog_link = QDialog()
         self.dialog_link.setWindowTitle('Inserir link')
-        self.dialog_link.setWindowIcon(cor_icon(f"icons/light/link.svg"))
+        self.dialog_link.setWindowIcon(cor_icon(f"icons/link.svg"))
         self.dialog_link.setFixedSize(QSize(440, 120))
         self.link_nome = ''
         self.link_url = ''
@@ -31,7 +32,7 @@ class DialogLink:
         self.edt_nome.setReadOnly(disabled)
         self.edt_nome.setFont(QFont('Arial', 10, 400))
         self.edt_nome.setMaximumWidth(340)
-        self.edt_nome.setStyleSheet(style_qline_edit())
+        # self.edt_nome.setStyleSheet(style_qline_edit())
         layH_2.addWidget(self.edt_nome)
 
         layH_3 = QHBoxLayout()
@@ -42,13 +43,13 @@ class DialogLink:
         self.edt_url = QLineEdit()
         self.edt_url.setFont(QFont('Arial', 10, 400))
         self.edt_url.setMaximumWidth(340)
-        self.edt_url.setStyleSheet(style_qline_edit())
+        # self.edt_url.setStyleSheet(style_qline_edit())
         layH_3.addWidget(self.edt_url)
 
         layH_4 = QHBoxLayout()
         btn_inserir = QPushButton('Inserir')
         btn_inserir.setFixedSize(QSize(100, 30))
-        btn_inserir.setStyleSheet(style_qpush_button())
+        # btn_inserir.setStyleSheet(style_qpush_button())
         btn_inserir.clicked.connect(self.about_close)
         layH_4.addWidget(btn_inserir)
 

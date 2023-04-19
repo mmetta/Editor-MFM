@@ -1,11 +1,13 @@
 from pathlib import Path
 
-from atual_path import local_path
-from pyCore import *
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon, QPixmap, QFont
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QSpacerItem, QSizePolicy, QPushButton
 
-from config_app.estilos_config import style_qpush_button
+from atual_path import local_path
 
 base_path = Path(local_path(), './icons')
+
 
 class DialogAbout:
 
@@ -14,12 +16,13 @@ class DialogAbout:
 
         self.dialog_about = QDialog(None, Qt.WindowSystemMenuHint | Qt.WindowTitleHint)
         self.dialog_about.setWindowTitle('Sobre o Aplicativo')
-        self.dialog_about.setWindowIcon(QIcon(QPixmap('icons/favicon.ico')))
+        ico_logo = Path(base_path, 'favicon.png')
+        self.dialog_about.setWindowIcon(QIcon(QPixmap(ico_logo)))
         self.dialog_about.setMinimumSize(320, 400)
         self.dialog_about.setMaximumSize(320, 400)
-        # self.dialog_about.showExtension(False)
 
         d_lay = QVBoxLayout(self.dialog_about)
+        d_lay.setContentsMargins(30, 10, 30, 10)
         d_lay.setAlignment(Qt.AlignCenter)
 
         layH_1 = QHBoxLayout()
@@ -38,14 +41,15 @@ class DialogAbout:
         layH_2.addWidget(lbl_nome)
 
         layH_5 = QHBoxLayout()
-        lbl_version = QLabel('versão 0.0.2')
+        lbl_version = QLabel('versão 0.0.3')
         lbl_version.setFont(QFont('Arial', 10, 400))
+        layH_5.setContentsMargins(0, 2, 0, 20)
         layH_5.setAlignment(Qt.AlignCenter)
         layH_5.addWidget(lbl_version)
 
         texto = '    Um editor simples, porém útil e eficaz na elaboração de documentos contendo textos' \
                 ' ricos em formatação, links e imagens.\n\n    Esta versão conta com os recursos do PySide6, ' \
-                'vários widgets, várias funções e classes do Python 3.11, aproveitem.'
+                'vários widgets, várias funções e classes do Python 3.11, aproveitem.\n'
 
         layH_3 = QHBoxLayout()
         lbl_text = QLabel(texto)
@@ -66,9 +70,9 @@ class DialogAbout:
         lay_ass.addWidget(lbl_ano)
 
         layH_4 = QHBoxLayout()
+        layH_4.setContentsMargins(0, 20, 0, 0)
         btn_fim = QPushButton('OK')
         btn_fim.setFixedSize(36, 30)
-        btn_fim.setStyleSheet(style_qpush_button())
         btn_fim.clicked.connect(self.about_close)
         layH_4.addWidget(btn_fim)
 

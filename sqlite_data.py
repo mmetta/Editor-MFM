@@ -25,29 +25,34 @@ def create_db():
     list_colors = [
         [
             "Azul",
-            "#bbdefb",
-            "#1565c0"
+            "#afd2f6",
+            "#1565c0",
+            "#203b5a"
         ],
         [
             "Ambar",
-            "#ffecB3",
-            "#ff6f00"
+            "#ffd7b8",
+            "#ff6f00",
+            "#6b3d1c"
         ],
         [
             "Verde",
-            "#d5ecd6",
-            "#00dd00"
+            "#a9ffa9",
+            "#00dd00",
+            "#19601c"
         ],
         [
             "Pink",
-            "#fce4ec",
-            "#e53080"
+            "#f8c8dd",
+            "#e53080",
+            "#682445"
         ]
     ]
     list_pref = [
         "Azul",
-        "#bbdefb",
-        "#1565c0"
+        "#afd2f6",
+        "#1565c0",
+        "#203b5a"
     ]
     conn.execute("INSERT INTO configs (app_h, app_w, colors_theme, cor_pref, max, theme) VALUES (?, ?, ?, ?, ?, ?)",
                  (600, 800, str(list_colors), str(list_pref), 0, "light"))

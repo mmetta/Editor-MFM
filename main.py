@@ -1,50 +1,39 @@
-import os
 import sys
 from pathlib import Path
 
-from PySide6.QtCore import QCoreApplication, QProcess
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QApplication
+from PySide6.QtCore import Qt, QCoreApplication, QProcess
+from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtGui import QCursor, QIcon
 
-import qdarkstyle
-from qdarkstyle.dark.palette import DarkPalette
-from qdarkstyle.light.palette import LightPalette
+import qdarktheme
 
 from Dialog_config import DialogConfig
 from Dialog_Confirm import CustomDialog
+from Editor import Editor
 from atual_path import local_path
-from main_window import MainWindow
-from sqlite_data import create_db, select_all
-
-appData = os.getenv('APPDATA') + '\\EditorMFM'
-db_dir = os.path.isdir(appData)
-if not db_dir:
-    os.makedirs(os.path.join(os.environ['APPDATA'], 'EditorMFM'))
-    create_db()
+from sqlite_data import select_all
 
 base_path = Path(local_path(), './icons')
 config = select_all()
 
-if config['theme'] == 'dark':
-    tema = DarkPalette
-else:
-    tema = LightPalette
 
-
-class MainApp(QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.main_ui = MainWindow()
-        self.main_ui.setup_ui(self)
-        # window title
-        self.title = self.main_ui.editor.title
-        self.setWindowTitle(self.title)
-        self.main_ui.editor.get_config.connect(self.set_config)
-        self.main_ui.editor.edit_title.connect(self.set_title)
-        self.closeEvent = self.main_ui.editor.fechar
+        self.setWindowTitle('Editor 0.0.3')
+        self.setMinimumSize(config['app_w'], config['app_h'])
 
-        self.show()
+        self.text_edit = Editor()
+        self.setCentralWidget(self.text_edit)
+
+        self.text_edit.edit_title.connect(self.set_title)
+        self.text_edit.get_config.connect(self.set_config)
+        self.text_edit.show_minimized.connect(self.showMinimized)
+        self.text_edit.show_maximized.connect(self.showMaximized)
+        self.text_edit.show_full_screen.connect(self.showFullScreen)
+        self.text_edit.show_normal.connect(self.showNormal)
+        self.closeEvent = self.text_edit.closeEvent
 
     def set_title(self, title):
         self.setWindowTitle(title)
@@ -59,18 +48,26 @@ class MainApp(QMainWindow):
             if re_st.chosen == 'Success':
                 restart_program()
 
+    def mousePressEvent(self, event):
+        if event.button() == Qt.RightButton:
+            widget = app.widgetAt(QCursor.pos())
+            print(widget)
+
 
 def restart_program():
     QCoreApplication.quit()
     status = QProcess.startDetached(sys.executable, sys.argv)
+    print(status)
 
 
 fav = str(Path(base_path, 'favicon.ico'))
+theme = config['theme']
+primary_color = config['cor_pref'][2]
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
+if __name__ == "__main__":
+    app = QApplication([])
     app.setWindowIcon(QIcon(fav))
-    app.setStyleSheet(qdarkstyle.load_stylesheet(tema))
-    window = MainApp()
+    qdarktheme.setup_theme(theme, custom_colors={"primary": primary_color})
+    window = MainWindow()
     window.show()
-    sys.exit(app.exec())
+    app.exec()

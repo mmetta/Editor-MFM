@@ -1,9 +1,15 @@
-from pyCore import *
-from sqlite_data import select_all
+import os
 
-# from config_app.settings import project_settings
+from PySide6.QtCore import QRect, Qt
+from PySide6.QtGui import QColor, QPixmap, QPainter, QIcon
+from sqlite_data import select_all, create_db
 
-# config = project_settings()
+appData = os.getenv('APPDATA') + '\\EditorMFM'
+db_dir = os.path.isdir(appData)
+if not db_dir:
+    os.makedirs(os.path.join(os.environ['APPDATA'], 'EditorMFM'))
+    create_db()
+
 config = select_all()
 
 
