@@ -65,6 +65,11 @@ class Editor(QWidget):
         locale = QLocale('pt-BR')
         self.editor.setLocale(locale)
 
+        lay_footer = QHBoxLayout()
+        self.lbl_footer = QLabel()
+        lay_footer.setContentsMargins(20, 2, 2, 20)
+        lay_footer.addWidget(self.lbl_footer)
+
         # add 16px to compensate for the scrollbar that will always be visible
         width = self.mm_to_pixel(210) + 16
         self.editor.setFixedWidth(width)
@@ -90,6 +95,7 @@ class Editor(QWidget):
         lay_h.addWidget(self.editor)
 
         self.lay_v.addLayout(lay_h)
+        self.lay_v.addLayout(lay_footer)
 
         self.title = 'Editor 0.0.3'
         self.dialog_save = QDialog()
@@ -105,6 +111,7 @@ class Editor(QWidget):
         self.open_extern()
 
         self.editor.selectionChanged.connect(self.on_cursor_position_changed)
+        self.editor.cursorPositionChanged.connect(self.set_footer)
         self.editor.textChanged.connect(self.editor_changed)
         self.editor.imageInserted.connect(self.insert_image)
 
@@ -844,6 +851,7 @@ class Editor(QWidget):
         if self.n_chr == 'open':
             self.n_chr = ''
             self.alter = ''
+        self.set_footer()
 
     def on_cursor_position_changed(self):
         cursor = self.editor.textCursor()
@@ -856,6 +864,13 @@ class Editor(QWidget):
                 self.font_combo.setCurrentText(family)
                 self.font_color.setStyleSheet(style_font_color(color))
                 self.font_size.setValue(int(size))
+
+    def set_footer(self):
+        chrs = len(self.editor.toPlainText())
+        cursor = self.editor.textCursor()
+        row = cursor.blockNumber() + 1
+        col = cursor.columnNumber() + 1
+        self.lbl_footer.setText(f'{chrs} caracteres           posição:  linha {row} coluna {col}')
 
     # ###############################
     # ####     TITLE UPDATE      ####
